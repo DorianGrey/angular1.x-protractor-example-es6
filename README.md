@@ -1,0 +1,1 @@
+The dev structure is somewhat based on: [web-starter-kit](https://github.com/google/web-starter-kit)
