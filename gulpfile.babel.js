@@ -17,7 +17,7 @@ let drivers = ['chrome'];
 let webdriverUpdate = webdriver_update.bind(null, {browsers: drivers});
 // Define the task itself.
 gulp.task('webdriver:update', (cb) => {
-  webdriver_update(cb);
+  webdriverUpdate(cb);
 });
 
 // Define an example task which uses Firefox for executing the test.
