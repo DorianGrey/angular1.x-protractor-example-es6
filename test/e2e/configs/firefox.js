@@ -1,6 +1,6 @@
 /**
  * Although it possible to write protractor tests the ES6 way using Babel, we have to write this config file in the old ES5-way, even when used with a recent Node version (>= 4).
- *
+ * One of only a few exceptions is the => syntax for anonymous functions.
  */
 
 var defaultTimeout = 60000;
@@ -27,10 +27,6 @@ module.exports = {
       // E.g., we might add a better structured command line reporter.
       SpecReporter = require('jasmine-spec-reporter');
       jasmine.getEnv().addReporter(new SpecReporter());
-
-      // To write test cases the ES6 way using Babel, we have to call the register hook here.
-      // If you want to use CoffeeScript for the tests, you only have to make sure it is properly installed - manually calling this hook is NOT required in that case.
-      require("babel-core/register");
     }
   }
 };
