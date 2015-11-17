@@ -12,6 +12,7 @@
   ],
   "author": "Christian Linne",
   "license": "ISC",
+  "engine-strict": true,
   "engines": {
     "node": ">=4"
   },

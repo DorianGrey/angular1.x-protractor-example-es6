@@ -21,7 +21,7 @@ Install dependencies
 
 Running
 -------
-To run the example server, use `gulp server`. This should open a new tab in your default browser on [http://localhost:3333](http://localhost:3333) - if that does not happen automatically, just move there manually. You should see an extremely simple page displaying `angular-protractor-test-app-thing`.
+To run the example server, use `gulp serve`. This should open a new tab in your default browser on [http://localhost:3333](http://localhost:3333) - if that does not happen automatically, just move there manually. You should see an extremely simple page displaying `angular-protractor-test-app-thing`.
 The E2E tests currently only aim at Firefox (as of 2015-11-17), which will be extended later on. To run them, just execute `gulp e2e:firefox`. Something like the following should appear on the command line, indicating that everything worked fine:
 '''
 
@@ -37,8 +37,6 @@ The E2E tests currently only aim at Firefox (as of 2015-11-17), which will be ex
     Executed 1 of 1 spec SUCCESS in 2 secs.
     1 spec, 0 failures
     
-'''
-
 TODO
 ====
 * Further technology description (why, how it works, etc.)
