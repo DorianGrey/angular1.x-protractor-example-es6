@@ -3,3 +3,5 @@
 *.iml
 app/jspm_packages/
 node_modules
+
+*nppdf32Log*
