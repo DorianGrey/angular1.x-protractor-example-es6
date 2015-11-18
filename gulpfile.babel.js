@@ -3,7 +3,7 @@
 import gulp from 'gulp';
 
 // Tasks for e2e-testing with protractor
-import {protractor, webdriver_update} from 'gulp-protractor';
+import {protractor, webdriver_update} from './test/e2e/helper/gulp-protractor-plugin';
 
 /** 1st task definition: Updating webdriver.
  * This should be performed regularly to ensure to have the most recent supported version of the selenium-standalone stuff available.
