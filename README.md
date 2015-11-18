@@ -1,11 +1,13 @@
-Before you can do anything with this repository, you should close it (pretty obvious, indeed). 
+This repository is part of a tutorial regarding Protractor and Angular.js 1.x which I am currently working on. It will cover a rather huge amount of basics and (technical) details, aiming at newbies. However, it is still incomplete and thus not published. If you feel a little bit adventurous, you might as well jump in and see what happens.
+  
+Anyway, before you can do anything with this repository, you should clone or download it (pretty obvious, indeed). 
 However, some further instructions ...
 
 Prerequisites
 ===============
 You will need recent versions of 
 
-* [Node.js](https://nodejs.org) for the task runner and protractor itself (I've only tested against >=4, and thus adjusted the engine restriction accordingly)
+* [Node.js](https://nodejs.org) for the task runner and protractor itself (>=4 is required for protractor w.r.t. the [docs](https://github.com/angular/protractor/commit/1a8bb5357ccc254ce9453972fee8521efbeb0a4d) - see the "Breaking Changes" section)
 * [Java](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) for the Selenium Webdriver part of protractor (I'd suggest to go with JDK/JRE8 - please note that both the Oracle and OpenJDK/JRE versions should work properly)
 
 installed.
@@ -22,7 +24,12 @@ Install dependencies
 Running
 -------
 To run the example server, use `gulp serve`. This should open a new tab in your default browser on [http://localhost:3333](http://localhost:3333) - if that does not happen automatically, just move there manually. You should see an extremely simple page displaying `angular-protractor-test-app-thing`.
-The E2E tests currently only aim at Firefox (as of 2015-11-17), which will be extended later on. To run them, just execute `gulp e2e:firefox`. Something like the following should appear on the command line, indicating that everything worked fine:
+The E2E tests may currently (as of 2015-11-18) target:
+
+* Firefox using `gulp e2e:firefox`
+* Chrome using `gulp e2e:chrome`
+
+Something like the following should appear on the command line, indicating that everything worked fine:
 '''
 
     Starting selenium standalone server...
