@@ -20,23 +20,23 @@ gulp.task('webdriver:update', (cb) => {
   webdriverUpdate(cb);
 });
 
-// Define an example task which uses Firefox for executing the test.
-// This uses the Firefox config file located at test/e2e/configs/firefox.js .
-// It is required to just reference the file here, since the protractor task is executed in a different process.
-let firefoxConfig = "test/e2e/configs/firefox.js";
-
-gulp.task('e2e:firefox', ['webdriver:update'], () => {
-  gulp.src('test/e2e/specs/**/*.spec.js')
-    .pipe(protractor({
-      configFile: firefoxConfig,
-      args: [
-        '--baseUrl',
-        'http://localhost:3333'
-      ]
-    }))
-    .on('error', (e) => {
-      throw e;
-    })
+// Define task for each supported browser - here: Firefox and Chrome.
+// It is required to just reference the config files here, since the protractor task is executed in a different process.
+let supportedBrowsers = ['firefox', 'chrome'];
+supportedBrowsers.forEach((browserName) => {
+  gulp.task(`e2e:${browserName}`, ['webdriver:update'], () => {
+    gulp.src('test/e2e/specs/**/*.spec.js')
+      .pipe(protractor({
+        configFile: `test/e2e/configs/${browserName}.js`,
+        args: [
+          '--baseUrl',
+          'http://localhost:3333'
+        ]
+      }))
+      .on('error', (e) => {
+        throw e;
+      })
+  });
 });
 
 // Tasks for the dev-mode itself.
@@ -45,6 +45,7 @@ const reload = browserSync.reload;
 
 gulp.task('serve', (cb) => {
   browserSync({
+    open: false,
     notify: false,
     logPrefix: 'BS',
     // Allow scroll syncing across breakpoints
