@@ -1,31 +1,45 @@
+import $ from 'jquery';
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 
-import {HomeController} from 'components/home.controller';
+import 'angular-aria';
+import 'angularjs-datepicker';
+
+import {HomeController} from 'components/home/home.controller';
+import {TodoController} from 'components/todo/todo.controller';
 
 "use strict";
 
-function config($locationProvider, $stateProvider, $urlRouterProvider) {
-
-  // set to html5mode
-  $locationProvider.html5Mode(true);
+function config($stateProvider, $urlRouterProvider) {
 
   $stateProvider
     .state('home', {
-      url: '/',
-      templateUrl: 'components/home.html',
+      url: '/home',
+      templateUrl: 'components/home/home.html',
       controller: 'homeController as homeCtrl'
-    });
+    })
+    .state('todo', {
+      url: '/todo',
+      templateUrl: 'components/todo/todo.html',
+      controller: 'todoController as todoCtrl'
+    })
+  ;
 
-  $urlRouterProvider.otherwise('/');
+  $urlRouterProvider.otherwise('/home');
+}
+
+function removeLoading() {
+  angular.element("#loading-gear").remove();
 }
 
 /*
  * Instantiate Module
  */
-angular.module('app', ['ui.router'])
+angular.module('app', ['ui.router', 'ngAria', '720kb.datepicker'])
   .config(config)
-  .controller('homeController', HomeController);
+  .run(removeLoading)
+  .controller('homeController', HomeController)
+  .controller('todoController', TodoController);
 
 /*
  * Bootstrap Angular

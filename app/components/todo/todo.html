@@ -1,0 +1,29 @@
+<div class="well" id="todo-page">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Your TODO list
+    </div>
+    <div class="panel-body">
+      <div class="list-group">
+        <div class="list-group-item" ng-repeat="todo in todoCtrl.todos">
+          <div>{{todo.description}}</div>
+          <div class="todo-until"><span>To be done until: &nbsp;</span>{{todo.until | date:'mediumDate'}}</div>
+          <i class="glyphicon glyphicon-remove remove-item" ng-click="todoCtrl.removeTask($index)"></i>
+        </div>
+      </div>
+    </div>
+    <div class="form-group todo-input-ctrls">
+      <textarea class="form-control" placeholder="Your todo description..." ng-model="todoCtrl.newTask.description" ng-minlength="1"></textarea>
+      <div class="datepicker-container">
+        <label for="task-until-input" class="datepicker-label">Should be done until:</label>
+        <datepicker date-format="MMM d, y" date-min-limit="{{todoCtrl.newTask.minDate}}" button-prev="<i class='glyphicon glyphicon-chevron-left'></i>" button-next="<i class='glyphicon glyphicon-chevron-right'></i>" >
+          <input id="task-until-input" class="form-control" ng-model="todoCtrl.newTask.until" placeholder="Choose a target date..." readonly>
+        </datepicker>
+      </div>
+
+      <div style="display: inline-block;">
+        <button type="button" class="btn btn-info center-block" ng-click="todoCtrl.createTask()" ng-disabled="todoCtrl.newTask.description.length === 0"><i class="glyphicon glyphicon-plus"></i>Add task</button>
+      </div>
+    </div>
+  </div>
+</div>

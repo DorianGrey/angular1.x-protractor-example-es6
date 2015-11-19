@@ -23,7 +23,12 @@
     },
     "dependencies": {
       "angular": "github:angular/bower-angular@^1.4.7",
-      "angular-ui-router": "github:angular-ui/ui-router@^0.2.15"
+      "angular-aria": "github:angular/bower-angular-aria@^1.4.7",
+      "angular-ui-router": "github:angular-ui/ui-router@^0.2.15",
+      "angularjs-datepicker": "npm:angularjs-datepicker@^0.2.13",
+      "bootstrap": "github:twbs/bootstrap@^3.3.5",
+      "jquery": "github:components/jquery@^2.1.4",
+      "moment": "npm:moment@^2.10.6"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.8.24",
@@ -36,6 +41,9 @@
     "babel-preset-es2015": "^6.1.18",
     "browser-sync": "^2.10.0",
     "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-sass": "^2.1.0",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
     "jasmine-spec-reporter": "^2.4.0",
     "lodash": "^3.10.1",

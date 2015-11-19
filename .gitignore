@@ -2,6 +2,7 @@
 .idea
 *.iml
 app/jspm_packages/
+app/css/
 node_modules
 
 *nppdf32Log*

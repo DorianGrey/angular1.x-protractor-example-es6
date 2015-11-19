@@ -40,10 +40,33 @@ supportedBrowsers.forEach((browserName) => {
 });
 
 // Tasks for the dev-mode itself.
+import gulpSass from 'gulp-sass';
+import sourceMaps from 'gulp-sourcemaps';
+import concat from 'gulp-concat';
+
 import browserSync from 'browser-sync';
 const reload = browserSync.reload;
 
-gulp.task('serve', (cb) => {
+gulp.task('sass:dev', function () {
+  gulp.src('./app/stylesheets/*.sass')
+    .pipe(sourceMaps.init())
+    .pipe(gulpSass().on('error', gulpSass.logError))
+    .pipe(concat("app.css"))
+    .pipe(sourceMaps.write())
+    .pipe(gulp.dest('./app/css'))
+    .pipe(browserSync.stream());
+});
+
+gulp.task('sass', function () {
+  gulp.src('./app/stylesheets/*.sass')
+    .pipe(sourceMaps.init())
+    .pipe(gulpSass().on('error', gulpSass.logError))
+    .pipe(concat("app.css"))
+    .pipe(sourceMaps.write())
+    .pipe(gulp.dest('./app/css'));
+});
+
+gulp.task('serve', ['sass'], (cb) => {
   browserSync({
     open: false,
     notify: false,
@@ -60,6 +83,7 @@ gulp.task('serve', (cb) => {
 
   gulp.watch("app/**/*.html", reload);
   gulp.watch("app/**/*.js", reload);
+  gulp.watch('./app/stylesheets/**/*.sass', ['sass:dev']);
 });
 
 gulp.task('default', ['serve']);
