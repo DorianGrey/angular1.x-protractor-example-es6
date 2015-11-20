@@ -1,14 +1,16 @@
 'use strict';
 
-describe('A simple initial testcase', () => {
+import {HomePage} from '../objects/home.page';
 
-  beforeEach(() => {
+describe('A simple initial testcase', function () {
+
+  beforeAll(() => {
     browser.get("/");
+    this.homePage = new HomePage();
   });
 
   it('should display the home`s root element correctly', () => {
-    let elem = element(by.id('home-app-name-title'));
-    expect(elem.isDisplayed()).toBeTruthy();
+    expect(this.homePage.title.isDisplayed()).toBeTruthy();
   });
 
 });

@@ -14,7 +14,9 @@ module.exports = {
   // This function is called by protractor once it loaded itself. Any further steps to be performed before executing the tests has to be placed here.
   onPrepare: () => {
     // E.g., we might add a better structured command line reporter.
-    SpecReporter = require('jasmine-spec-reporter');
+    var SpecReporter = require('jasmine-spec-reporter');
     jasmine.getEnv().addReporter(new SpecReporter());
+
+    require('babel-core/register');
   }
 };
