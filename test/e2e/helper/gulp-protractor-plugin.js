@@ -34,10 +34,10 @@ export let protractor = function (options) {
   args = options.args || [];
 
   return through(
-    (file) => {
+    function (file) {
       files.push(file.path);
     },
-    () => {
+    function () {
       let stream = this;
       // Enable debug mode
       options.debug && args.push('debug');

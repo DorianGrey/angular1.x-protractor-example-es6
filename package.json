@@ -48,6 +48,10 @@
     "jasmine-spec-reporter": "^2.4.0",
     "lodash": "^3.10.1",
     "protractor": "^3.0.0",
-    "through": "^2.3.8"
+    "through": "^2.3.8",
+    "yargs": "^3.30.0"
+  },
+  "optionalDependencies": {
+    "xvfb": "^0.2.2"
   }
 }

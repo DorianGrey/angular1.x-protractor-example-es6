@@ -1,9 +1,41 @@
 'use strict';
 
 import gulp from 'gulp';
+import gulpUtil from 'gulp-util';
 
 // Tasks for e2e-testing with protractor
 import {protractor, webdriver_update} from './test/e2e/helper/gulp-protractor-plugin';
+
+// Get parsed command line arguments.
+import {argv} from 'yargs';
+
+let Xvfb = null;
+try {
+  Xvfb = require('xvfb');
+} catch (error) {
+  gulpUtil.log(`[${gulpUtil.colors.red("✖")}] Xvfb not found, headless mode will not be available.`);
+}
+
+// Check if headless mode was selected AND is available.
+let useHeadlessMode = Xvfb && argv.headless;
+
+let runWithHeadless = function (execFunc, done) {
+  let xvfb = new Xvfb();
+  xvfb.start(function (err) {
+    if (err) {
+      throw err;
+    }
+    execFunc().on('end', function () {
+      gulpUtil.log('Stream ended, shutting down Xvfb...');
+      xvfb.stop(function (err) {
+        if (err) {
+          throw err;
+        }
+        done();
+      });
+    });
+  });
+};
 
 /** 1st task definition: Updating webdriver.
  * This should be performed regularly to ensure to have the most recent supported version of the selenium-standalone stuff available.
@@ -20,22 +52,39 @@ gulp.task('webdriver:update', (cb) => {
   webdriverUpdate(cb);
 });
 
+// Create a function which checks for potential given explicit target.
+let determineTarget = function () {
+  let target = argv.target || 'http://localhost:3333';
+  if (!/^https?/.test(target)) {
+    target = `http://${target}`;
+  }
+  return target;
+};
+
 // Define task for each supported browser - here: Firefox and Chrome.
-// It is required to just reference the config files here, since the protractor task is executed in a different process.
-let supportedBrowsers = ['firefox', 'chrome'];
-supportedBrowsers.forEach((browserName) => {
-  gulp.task(`e2e:${browserName}`, ['webdriver:update'], () => {
-    gulp.src('test/e2e/specs/**/*.spec.js')
+// It is required to just reference the config files here, since the protractor task is executed in a different process
+let supportedBrowsers = ['firefox', 'chrome'],
+  executionFunction = function (browserName) {
+    return gulp.src('test/e2e/specs/**/*.spec.js')
       .pipe(protractor({
         configFile: `test/e2e/configs/${browserName}.js`,
         args: [
           '--baseUrl',
-          'http://localhost:3333'
+          determineTarget()
         ]
       }))
       .on('error', (e) => {
         throw e;
-      })
+      });
+  };
+
+supportedBrowsers.forEach((browserName) => {
+  gulp.task(`e2e:${browserName}`, ['webdriver:update'], function (done) {
+    if (useHeadlessMode) {
+      runWithHeadless(executionFunction.bind(null, browserName), done);
+    } else {
+      executionFunction(browserName).on('done', done);
+    }
   });
 });
 

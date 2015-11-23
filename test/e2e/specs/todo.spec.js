@@ -17,7 +17,7 @@ describe('A more complex test for the "TODO list" page', function () {
     it('should correctly move to the "TODO list" page', () => {
       this.header.todoPageRef.click();
 
-      wait.visible(this.todoPage.root);
+      wait.presence(this.todoPage.root);
 
       expect(this.todoPage.root.isDisplayed()).toBeTruthy();
     });
