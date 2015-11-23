@@ -3,6 +3,8 @@
 import {TodoPage} from '../objects/todo.page';
 import {HeaderComponent} from '../objects/header.component';
 
+import wait from '../helper/wait';
+
 describe('A more complex test for the "TODO list" page', function () {
 
   beforeAll(() => {
@@ -14,6 +16,9 @@ describe('A more complex test for the "TODO list" page', function () {
   describe('General layout', () => {
     it('should correctly move to the "TODO list" page', () => {
       this.header.todoPageRef.click();
+
+      wait.visible(this.todoPage.root);
+
       expect(this.todoPage.root.isDisplayed()).toBeTruthy();
     });
 
@@ -22,8 +27,8 @@ describe('A more complex test for the "TODO list" page', function () {
     });
 
     it('should display tasks with descriptions "First task" and "Second task"', () => {
-      expect(this.todoPage.todoEntries.descriptions.first().getText()).toEqual("First task");
-      expect(this.todoPage.todoEntries.descriptions.last().getText()).toEqual("Second task");
+      expect(this.todoPage.todoEntries.descriptions.first().getText()).toEqual('First task');
+      expect(this.todoPage.todoEntries.descriptions.last().getText()).toEqual('Second task');
     });
 
     it('should correctly display entries to create a new task: A textarea, a datepicker, and a button to submit the task', () => {
@@ -45,14 +50,10 @@ describe('A more complex test for the "TODO list" page', function () {
 
   describe('Functionality', () => {
 
-    it("should correctly add a new task", () => {
-      let testTaskName = "Testing task",
-        newTodo = this.todoPage.newTodo;
+    it('should correctly add a new task', () => {
+      let testTaskName = 'Testing task';
 
-      newTodo.datepicker.inputElem.click();
-      newTodo.datepicker.todayEntry.first().click();
-      newTodo.textarea.sendKeys(testTaskName);
-      newTodo.submitButton.click();
+      this.todoPage.createTodoForToday(testTaskName);
 
       expect(this.todoPage.todoEntries.count()).toEqual(3);
       expect(this.todoPage.todoEntries.mostRecentEntry.getText()).toEqual(testTaskName);
@@ -62,9 +63,22 @@ describe('A more complex test for the "TODO list" page', function () {
       this.todoPage.todoEntries.removeIcons.get(1).click();
 
       expect(this.todoPage.todoEntries.count()).toEqual(2);
-      expect(this.todoPage.todoEntries.descriptions.first().getText()).toEqual("First task");
-      expect(this.todoPage.todoEntries.descriptions.last().getText()).toEqual("Testing task");
+      expect(this.todoPage.todoEntries.descriptions.first().getText()).toEqual('First task');
+      expect(this.todoPage.todoEntries.descriptions.last().getText()).toEqual('Testing task');
     });
+
+    it('should increase the amount of visible tasks by one if a new task was added', (done) => {
+      this.todoPage.todoEntries.count().then((oldCount) => {
+        this.todoPage.createTodoForToday('Another test task');
+        this.todoPage.todoEntries.count().then((newCount) => {
+          // Expectation
+          expect(newCount - oldCount).toEqual(1);
+          // Cleanup
+          this.todoPage.todoEntries.removeIcons.last().click().then(done);
+        });
+      });
+    });
+
   });
 
 });

@@ -23,4 +23,11 @@ export class TodoPage {
         return /datepickerDay/i.test(attr);
       }));
   }
+
+  createTodoForToday(withDescription) {
+    this.newTodo.datepicker.inputElem.click();
+    this.newTodo.datepicker.todayEntry.first().click();
+    this.newTodo.textarea.sendKeys(withDescription);
+    this.newTodo.submitButton.click();
+  }
 }
