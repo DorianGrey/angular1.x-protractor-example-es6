@@ -8,21 +8,29 @@
         <div class="list-group-item" ng-repeat="todo in todoCtrl.todos">
           <div>{{todo.description}}</div>
           <div class="todo-until"><span>To be done until: &nbsp;</span>{{todo.until | date:'mediumDate'}}</div>
+          <span class="label label-{{todoCtrl.priorityToCategory[todo.priority]}} todo-priority">{{todo.priority}}</span>
           <i class="glyphicon glyphicon-remove remove-item" ng-click="todoCtrl.removeTask($index)"></i>
         </div>
       </div>
     </div>
     <div class="form-group todo-input-ctrls">
       <textarea class="form-control" placeholder="Your todo description..." ng-model="todoCtrl.newTask.description" required></textarea>
-      <div class="datepicker-container">
-        <label for="task-until-input" class="datepicker-label">Should be done until:</label>
-        <datepicker date-format="MMM d, y" date-min-limit="{{todoCtrl.newTask.minDate}}" button-prev="<i class='glyphicon glyphicon-chevron-left'></i>" button-next="<i class='glyphicon glyphicon-chevron-right'></i>" >
-          <input id="task-until-input" class="form-control" ng-model="todoCtrl.newTask.until" placeholder="Choose a target date..." readonly>
-        </datepicker>
+      <div class="row">
+        <div class="selector-container col-xs-6">
+          <label for="task-priority-input" class="selector-label">Priority:</label>
+          <select id="task-priority-input" class="form-control" ng-options="option for option in todoCtrl.priorityOptions" ng-model="todoCtrl.newTask.priority"></select>
+        </div>
+        <div class="selector-container col-xs-6">
+          <label for="task-until-input" class="selector-label">Should be done until:</label>
+          <datepicker date-format="MMM d, y" date-min-limit="{{todoCtrl.newTask.minDate}}" button-prev="<i class='glyphicon glyphicon-chevron-left'></i>" button-next="<i class='glyphicon glyphicon-chevron-right'></i>">
+            <input id="task-until-input" class="form-control" ng-model="todoCtrl.newTask.until" placeholder="Choose a target date..." readonly>
+          </datepicker>
+        </div>
       </div>
 
-      <div style="display: inline-block;">
-        <button type="button" id="create-task-button" class="btn btn-info center-block" ng-click="todoCtrl.createTask()" ng-disabled="todoCtrl.newTask.description.length === 0"><i class="glyphicon glyphicon-plus"></i>Add task</button>
+      <div class="add-todo-button-wrapper">
+        <button type="button" id="create-task-button" class="btn btn-info center-block" ng-click="todoCtrl.createTask()" ng-disabled="todoCtrl.newTask.description.length === 0"><i class="glyphicon glyphicon-plus"></i>Add task
+        </button>
       </div>
     </div>
   </div>
