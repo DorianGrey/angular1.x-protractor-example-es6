@@ -11,6 +11,11 @@ describe('A more complex test for the "TODO list" page', function () {
     browser.get("/");
     this.header = new HeaderComponent();
     this.todoPage = new TodoPage();
+
+    // This is a workaround for Firefox, which regularly fails to correctly scroll the page when interacting with the date picker.
+    if (/firefox/.test(global.browserCapabilities.get('browserName'))) {
+      browser.driver.manage().window().setSize(1024, 2048);
+    }
   });
 
   describe('General layout', () => {

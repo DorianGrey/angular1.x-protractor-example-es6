@@ -6,6 +6,9 @@ import gulpUtil from 'gulp-util';
 // Tasks for e2e-testing with protractor
 import {protractor, webdriver_update} from './test/e2e/helper/gulp-protractor-plugin';
 
+// Config builder helper
+import {protractorCfgBuilder} from './test/e2e/configs/builder';
+
 // Get parsed command line arguments.
 import {argv} from 'yargs';
 
@@ -16,8 +19,8 @@ try {
   gulpUtil.log(`[${gulpUtil.colors.red("✖")}] Xvfb not found, headless mode will not be available.`);
 }
 
-// Check if headless mode was selected AND is available.
-let useHeadlessMode = Xvfb && argv.headless;
+// Check if headless mode is available, was selected, and we're not aiming a remote target.
+let useHeadlessMode = Xvfb && argv.headless && !argv.remote;
 
 let runWithHeadless = function (execFunc, done) {
   let xvfb = new Xvfb();
@@ -52,27 +55,15 @@ gulp.task('webdriver:update', (cb) => {
   webdriverUpdate(cb);
 });
 
-// Create a function which checks for potential given explicit target.
-let determineTarget = function () {
-  let target = argv.target || 'http://localhost:3333';
-  if (!/^https?/.test(target)) {
-    target = `http://${target}`;
-  }
-  return target;
-};
 
 // Define task for each supported browser - here: Firefox and Chrome.
 // It is required to just reference the config files here, since the protractor task is executed in a different process
-let supportedBrowsers = ['firefox', 'chrome'],
+let supportedBrowsers = ['firefox', 'chrome', 'ie11', 'safari'],
   executionFunction = function (browserName) {
+    let cfg = protractorCfgBuilder(browserName, argv);
+
     return gulp.src('test/e2e/specs/**/*.spec.js')
-      .pipe(protractor({
-        configFile: `test/e2e/configs/${browserName}.js`,
-        args: [
-          '--baseUrl',
-          determineTarget()
-        ]
-      }))
+      .pipe(protractor(cfg))
       .on('error', (e) => {
         throw e;
       });
