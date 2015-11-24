@@ -4,6 +4,7 @@ import uiRouter from 'angular-ui-router';
 
 import 'angular-aria';
 import 'angularjs-datepicker';
+import 'bootstrap';
 
 import {HomeController} from 'components/home/home.controller';
 import {TodoController} from 'components/todo/todo.controller';
