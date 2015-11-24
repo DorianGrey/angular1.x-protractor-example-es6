@@ -6,13 +6,15 @@ export class TodoPage {
 
     this.todoEntries = this.root.all(by.className('list-group-item'));
     this.todoEntries.descriptions = this.todoEntries.all(by.binding('todo.description'));
+    this.todoEntries.priorities = this.todoEntries.all(by.className('todo-priority'));
     this.todoEntries.mostRecentEntry = this.todoEntries.last().element(by.binding('todo.description'));
     this.todoEntries.removeIcons = this.todoEntries.all(by.className('remove-item'));
 
     this.newTodo = {
       textarea: this.root.element(by.tagName('textarea')),
       datepicker: this.root.element(by.tagName('datepicker')),
-      submitButton: this.root.element(by.id('create-task-button'))
+      submitButton: this.root.element(by.id('create-task-button')),
+      prioritySelection: this.root.element(by.id('task-priority-input'))
     };
     this.newTodo.datepicker.inputElem = this.newTodo.datepicker.element(by.id('task-until-input'));
     this.newTodo.datepicker.todayEntry = this
@@ -22,12 +24,15 @@ export class TodoPage {
       .filter((elem) => elem.getAttribute('ng-click').then((attr) => {
         return /datepickerDay/i.test(attr);
       }));
+
+    this.newTodo.prioritySelection.options = this.newTodo.prioritySelection.all(by.tagName('option'));
   }
 
-  createTodoForToday(withDescription) {
+  createTodoForToday(withDescription, priorityIdx = 0) {
     this.newTodo.datepicker.inputElem.click();
     this.newTodo.datepicker.todayEntry.first().click();
     this.newTodo.textarea.sendKeys(withDescription);
+    this.newTodo.prioritySelection.options.get(priorityIdx).click();
     this.newTodo.submitButton.click();
   }
 }

@@ -41,6 +41,7 @@ describe('A more complex test for the "TODO list" page', function () {
       expect(newTodo.textarea.isDisplayed()).toBeTruthy();
       expect(newTodo.datepicker.isDisplayed()).toBeTruthy();
       expect(newTodo.submitButton.isDisplayed()).toBeTruthy();
+      expect(newTodo.prioritySelection.isDisplayed()).toBeTruthy();
     });
 
     it('should not be possible to submit a task without entering some text', () => {
@@ -60,7 +61,13 @@ describe('A more complex test for the "TODO list" page', function () {
 
       this.todoPage.createTodoForToday(testTaskName);
 
+      // Date will not be tested explicitly, since it might be illustrated in a language-dependent way.
+      let newDesc = this.todoPage.todoEntries.descriptions.last(),
+        newPriority = this.todoPage.todoEntries.priorities.last();
+
       expect(this.todoPage.todoEntries.count()).toEqual(3);
+      expect(newDesc.getText()).toEqual(testTaskName);
+      expect(newPriority.getText()).toEqual('Could not care less');
       expect(this.todoPage.todoEntries.mostRecentEntry.getText()).toEqual(testTaskName);
     });
 
