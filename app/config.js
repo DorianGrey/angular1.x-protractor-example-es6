@@ -14,7 +14,7 @@ System.config({
   },
 
   map: {
-    "angular": "github:angular/bower-angular@1.4.7",
+    "angular": "github:angular/bower-angular@1.4.8",
     "angular-aria": "github:angular/bower-angular-aria@1.4.7",
     "angular-ui-router": "github:angular-ui/ui-router@0.2.15",
     "angularjs-datepicker": "npm:angularjs-datepicker@0.2.13",
@@ -24,11 +24,12 @@ System.config({
     "core-js": "npm:core-js@1.2.6",
     "jquery": "github:components/jquery@2.1.4",
     "moment": "npm:moment@2.10.6",
+    "seiyria/angular-bootstrap-slider": "github:seiyria/angular-bootstrap-slider@0.1.20",
     "github:angular-ui/ui-router@0.2.15": {
-      "angular": "github:angular/bower-angular@1.4.7"
+      "angular": "github:angular/bower-angular@1.4.8"
     },
     "github:angular/bower-angular-aria@1.4.7": {
-      "angular": "github:angular/bower-angular@1.4.7"
+      "angular": "github:angular/bower-angular@1.4.8"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
       "assert": "npm:assert@1.3.0"
@@ -41,6 +42,13 @@ System.config({
     },
     "github:jspm/nodelibs-util@0.1.0": {
       "util": "npm:util@0.10.3"
+    },
+    "github:seiyria/angular-bootstrap-slider@0.1.20": {
+      "angular": "github:angular/bower-angular@1.4.8",
+      "bootstrap-slider": "github:seiyria/bootstrap-slider@4.14.5"
+    },
+    "github:seiyria/bootstrap-slider@4.14.5": {
+      "jquery": "github:components/jquery@2.1.4"
     },
     "github:twbs/bootstrap@3.3.5": {
       "jquery": "github:components/jquery@2.1.4"

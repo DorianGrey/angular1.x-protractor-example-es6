@@ -12,6 +12,7 @@
         <div class="list-group-item" ng-repeat="todo in todoCtrl.todos">
           <div>{{todo.description}}</div>
           <div class="todo-until"><span>To be done until: &nbsp;</span>{{todo.until | date:'mediumDate'}}</div>
+          <div class="todo-people"><span>Amount of people required:&nbsp;</span><span class="todo-people-value">{{todo.people}}</span></div>
           <span class="label label-{{todoCtrl.priorityToCategory[todo.priority]}} todo-priority">{{todo.priority}}</span>
           <i class="glyphicon glyphicon-remove remove-item" ng-click="todoCtrl.removeTask($index)"></i>
         </div>
@@ -32,9 +33,15 @@
         </div>
       </div>
 
-      <div class="add-todo-button-wrapper">
-        <button type="button" id="create-task-button" class="btn btn-info center-block" ng-click="todoCtrl.createTask()" ng-disabled="todoCtrl.newTask.description.length === 0"><i class="glyphicon glyphicon-plus"></i>Add task
-        </button>
+      <div class="row">
+        <div class="slider-container col-xs-6">
+          <span class="people-amount-indicator col-md-4">Amount of people required: <span class="people-amount-indicator-value">{{todoCtrl.newTask.people}}</span></span>
+          <slider class="col-md-8" ng-model="todoCtrl.newTask.people" min="todoCtrl.slider.min" step="1" max="todoCtrl.slider.max" value="todoCtrl.slider.value"></slider>
+        </div>
+        <div class="add-todo-button-wrapper">
+          <button type="button" id="create-task-button" class="btn btn-info center-block" ng-click="todoCtrl.createTask()" ng-disabled="todoCtrl.newTask.description.length === 0"><i class="glyphicon glyphicon-plus"></i>Add task
+          </button>
+        </div>
       </div>
     </div>
   </div>

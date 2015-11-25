@@ -5,6 +5,7 @@ import uiRouter from 'angular-ui-router';
 import 'angular-aria';
 import 'angularjs-datepicker';
 import 'bootstrap';
+import 'seiyria/angular-bootstrap-slider';
 
 import {HomeController} from 'components/home/home.controller';
 import {TodoController} from 'components/todo/todo.controller';
@@ -36,7 +37,7 @@ function removeLoading() {
 /*
  * Instantiate Module
  */
-angular.module('app', ['ui.router', 'ngAria', '720kb.datepicker'])
+angular.module('app', ['ui.router', 'ui.bootstrap-slider', 'ngAria', '720kb.datepicker'])
   .config(config)
   .run(removeLoading)
   .controller('homeController', HomeController)

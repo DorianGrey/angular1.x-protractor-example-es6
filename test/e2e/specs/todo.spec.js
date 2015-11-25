@@ -59,15 +59,18 @@ describe('A more complex test for the "TODO list" page', function () {
     it('should correctly add a new task', () => {
       let testTaskName = 'Testing task';
 
+      this.todoPage.moveSliderHandleTo(this.todoPage.newTodo.datepicker);
       this.todoPage.createTodoForToday(testTaskName);
 
       // Date will not be tested explicitly, since it might be illustrated in a language-dependent way.
       let newDesc = this.todoPage.todoEntries.descriptions.last(),
-        newPriority = this.todoPage.todoEntries.priorities.last();
+        newPriority = this.todoPage.todoEntries.priorities.last(),
+        newPeopleCnt = this.todoPage.todoEntries.peopleCounters.last();
 
       expect(this.todoPage.todoEntries.count()).toEqual(3);
       expect(newDesc.getText()).toEqual(testTaskName);
       expect(newPriority.getText()).toEqual('Could not care less');
+      expect(newPeopleCnt.getText()).toEqual('10');
       expect(this.todoPage.todoEntries.mostRecentEntry.getText()).toEqual(testTaskName);
     });
 

@@ -7,6 +7,7 @@ export class TodoPage {
     this.todoEntries = this.root.all(by.className('list-group-item'));
     this.todoEntries.descriptions = this.todoEntries.all(by.binding('todo.description'));
     this.todoEntries.priorities = this.todoEntries.all(by.className('todo-priority'));
+    this.todoEntries.peopleCounters = this.todoEntries.all(by.className('todo-people-value'));
     this.todoEntries.mostRecentEntry = this.todoEntries.last().element(by.binding('todo.description'));
     this.todoEntries.removeIcons = this.todoEntries.all(by.className('remove-item'));
 
@@ -14,7 +15,8 @@ export class TodoPage {
       textarea: this.root.element(by.tagName('textarea')),
       datepicker: this.root.element(by.tagName('datepicker')),
       submitButton: this.root.element(by.id('create-task-button')),
-      prioritySelection: this.root.element(by.id('task-priority-input'))
+      prioritySelection: this.root.element(by.id('task-priority-input')),
+      slider: this.root.element(by.className('slider-container'))
     };
     this.newTodo.datepicker.inputElem = this.newTodo.datepicker.element(by.id('task-until-input'));
     this.newTodo.datepicker.todayEntry = this
@@ -26,6 +28,9 @@ export class TodoPage {
       }));
 
     this.newTodo.prioritySelection.options = this.newTodo.prioritySelection.all(by.tagName('option'));
+
+    this.newTodo.slider.peopleCount = this.newTodo.slider.element(by.className('people-amount-indicator-value'));
+    this.newTodo.slider.handle = this.newTodo.slider.element(by.className('min-slider-handle'));
 
     this.calcResultOf = (function () {
       let opcalcs = {
@@ -54,5 +59,9 @@ export class TodoPage {
     this.newTodo.textarea.sendKeys(withDescription);
     this.newTodo.prioritySelection.options.get(priorityIdx).click();
     this.newTodo.submitButton.click();
+  }
+
+  moveSliderHandleTo(locationOrTargetElem) {
+    return browser.actions().dragAndDrop(this.newTodo.slider.handle, locationOrTargetElem).perform();
   }
 }

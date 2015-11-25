@@ -16,6 +16,11 @@ export class TodoController {
     };
     this.warning.indicator.hide();
 
+    this.slider = {
+      min: 1,
+      max: 10
+    };
+
     this.priorityOptions = [
       'Could not care less',
       'Eventually',
@@ -32,12 +37,14 @@ export class TodoController {
       {
         description: 'First task',
         priority: this.priorityOptions[1],
-        until: moment().toDate()
+        until: moment().toDate(),
+        people: 3
       },
       {
         description: 'Second task',
         priority: this.priorityOptions[1],
-        until: moment().toDate()
+        until: moment().toDate(),
+        people: 5
       }
     ];
 
@@ -45,20 +52,23 @@ export class TodoController {
       description: '',
       priority: this.priorityOptions[1],
       until: null,
-      minDate: moment().subtract(1, 'days').toISOString()
+      minDate: moment().subtract(1, 'days').toISOString(),
+      people: 1
     };
 
     let resetNewTask = (function () {
       this.newTask.description = '';
       this.newTask.until = null;
       this.newTask.priority = this.priorityOptions[1];
+      this.newTask.people = 1;
     }).bind(this);
 
     this.createTask = function () {
       let newTask = {
         description: this.newTask.description,
         until: this.newTask.until,
-        priority: this.newTask.priority
+        priority: this.newTask.priority,
+        people: this.newTask.people
       };
 
       // TODO: Some ordering might be lovely here!
