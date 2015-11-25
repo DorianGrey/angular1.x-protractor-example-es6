@@ -1,7 +1,21 @@
 import moment from 'moment';
 
 export class TodoController {
-  constructor() {
+  constructor($element) {
+    this.warning = {
+      indicator: $element.find('#something-failed-indicator'),
+      message: '',
+      dismiss: () => {
+        this.warning.message = '';
+        this.warning.indicator.hide();
+      },
+      show: (warningText) => {
+        this.warning.message = warningText;
+        this.warning.indicator.show();
+      }
+    };
+    this.warning.indicator.hide();
+
     this.priorityOptions = [
       'Could not care less',
       'Eventually',
@@ -47,14 +61,60 @@ export class TodoController {
         priority: this.newTask.priority
       };
 
-      // TODO: Some ordering would be lovely here!
+      // TODO: Some ordering might be lovely here!
       this.todos.push(newTask);
 
       resetNewTask();
     };
 
+    let calcResultOf = (function () {
+      let opcalcs = {
+        '+': function (left, right) {
+          return left + right;
+        },
+        '-': function (left, right) {
+          return left - right;
+        },
+        '*': function (left, right) {
+          return left * right;
+        },
+        '/': function (left, right) {
+          return left / right;
+        }
+      };
+      return function (left, op, right) {
+        return parseInt(opcalcs[op](left, right));
+      }
+    })();
+
+    let createRemovePromptQuestion = (function () {
+      let getRandomInt = function (min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+      };
+      let calcOptions = ['+', '-', '*', '/'];
+
+      return function () {
+        let combinator = calcOptions[getRandomInt(0, 4)],
+          val1 = getRandomInt(0, 100),
+          val2 = getRandomInt(1, 100);
+
+        let expectedResult = calcResultOf(val1, combinator, val2);
+
+        return {
+          expectedResult: expectedResult,
+          question: `Please enter the INTEGER result of: ${val1} ${combinator} ${val2}`
+        };
+      };
+    })();
+
     this.removeTask = function (idx) {
-      this.todos.splice(idx, 1);
+      let securityCheck = createRemovePromptQuestion();
+      let result = window.prompt(securityCheck.question);
+      if (parseInt(result) === securityCheck.expectedResult) {
+        this.todos.splice(idx, 1);
+      } else {
+        this.warning.show(`Unexpected result ${result} - entry was not deleted!`);
+      }
     };
   }
 }

@@ -26,6 +26,26 @@ export class TodoPage {
       }));
 
     this.newTodo.prioritySelection.options = this.newTodo.prioritySelection.all(by.tagName('option'));
+
+    this.calcResultOf = (function () {
+      let opcalcs = {
+        '+': function (left, right) {
+          return left + right;
+        },
+        '-': function (left, right) {
+          return left - right;
+        },
+        '*': function (left, right) {
+          return left * right;
+        },
+        '/': function (left, right) {
+          return left / right;
+        }
+      };
+      return function (left, op, right) {
+        return parseInt(opcalcs[op](left, right));
+      }
+    })();
   }
 
   createTodoForToday(withDescription, priorityIdx = 0) {

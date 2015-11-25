@@ -71,12 +71,32 @@ describe('A more complex test for the "TODO list" page', function () {
       expect(this.todoPage.todoEntries.mostRecentEntry.getText()).toEqual(testTaskName);
     });
 
-    it('should correctly remove a task from the list', () => {
-      this.todoPage.todoEntries.removeIcons.get(1).click();
+    it('should correctly remove a task from the list', (done) => {
+      let self = this;
+      this.todoPage.todoEntries.removeIcons.get(1).click().then(function() {
+        browser.switchTo().alert().then(function (alert) {
+          return alert.getText()
+            .then(function (text) {
+              // Extract values.
+              let matcher = /(\d+)\s+(\+|-|\*|\/)\s+(\d+)/;
+              let [left, op, right] = text.match(matcher).slice(1);
 
-      expect(this.todoPage.todoEntries.count()).toEqual(2);
-      expect(this.todoPage.todoEntries.descriptions.first().getText()).toEqual('First task');
-      expect(this.todoPage.todoEntries.descriptions.last().getText()).toEqual('Testing task');
+              left = parseInt(left);
+              right = parseInt(right);
+
+              let calculatedResult = self.todoPage.calcResultOf(left, op, right).toString();
+
+              alert.sendKeys(calculatedResult);
+              return alert.accept();
+            })
+            .then(function () {
+              expect(self.todoPage.todoEntries.count()).toEqual(2);
+              expect(self.todoPage.todoEntries.descriptions.first().getText()).toEqual('First task');
+              expect(self.todoPage.todoEntries.descriptions.last().getText()).toEqual('Testing task');
+              done();
+            });
+        });
+      });
     });
 
     it('should increase the amount of visible tasks by one if a new task was added', (done) => {
