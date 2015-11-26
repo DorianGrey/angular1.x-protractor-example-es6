@@ -1,0 +1,37 @@
+<article class="suite">
+  <header>
+    <h2>{{{suiteName}}}<span>&nbsp;-&nbsp;</span>{{suiteElapsed}}<span>s</span></h2>
+    <ul class="stats">
+      <li>Tests: <strong>{{testCnt}}</strong></li>
+      <li>Skipped: <strong>{{skipped}}</strong></li>
+      <li>Failures: <strong>{{failed}}</strong></li>
+    </ul>
+  </header>
+  {{#each specs}}
+    <div class="spec">
+      <div class="description">
+        <!-- description must not be escaped -> already done by the content generator -->
+        <h3>{{{description}}}<span>&nbsp;-&nbsp;</span>{{elapsed}}<span>s</span></h3>
+        {{#if isNonEmptySpecResult}}
+          <ul>
+            {{#each failedExpectations}}
+              <li>{{message}}<span style="padding:0 1em;color:red;">&#10007;</span></li>
+            {{/each}}
+            {{#each passedExpectations}}
+              <li>{{message}}<span style="padding:0 1em;color:green;">&#10003;</span></li>
+            {{/each}}
+          </ul>
+        {{/if}}
+      </div>
+      <div class="resume">
+        {{#if screenshot}}
+          <a href="{{screenshot}}"><img src="{{screenshot}}"/></a>
+        {{/if}}
+        <br/>
+        <span class="test-passed-info">Tests passed: {{successQuota}}</span>
+        <br/>
+        <progress max="100" value="{{successQuotaNatural}}"></progress>
+      </div>
+    </div>
+  {{/each}}
+</article>

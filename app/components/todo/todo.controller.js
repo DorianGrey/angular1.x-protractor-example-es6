@@ -97,7 +97,7 @@ export class TodoController {
       }
     })();
 
-    let createRemovePromptQuestion = (function () {
+    this.createRemovePromptQuestion = (function () {
       let getRandomInt = function (min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
       };
@@ -116,15 +116,15 @@ export class TodoController {
         };
       };
     })();
+  }
 
-    this.removeTask = function (idx) {
-      let securityCheck = createRemovePromptQuestion();
-      let result = window.prompt(securityCheck.question);
-      if (parseInt(result) === securityCheck.expectedResult) {
-        this.todos.splice(idx, 1);
-      } else {
-        this.warning.show(`Unexpected result ${result} - entry was not deleted!`);
-      }
-    };
+  removeTask(idx) {
+    let securityCheck = this.createRemovePromptQuestion();
+    let result = window.prompt(securityCheck.question);
+    if (parseInt(result) === securityCheck.expectedResult) {
+      this.todos.splice(idx, 1);
+    } else {
+      this.warning.show(`Unexpected result ${result} - entry was not deleted!`);
+    }
   }
 }

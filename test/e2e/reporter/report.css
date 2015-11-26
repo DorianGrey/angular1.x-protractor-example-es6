@@ -1,0 +1,146 @@
+body {
+  font-family: "open_sans", sans-serif
+}
+
+h2 {
+  font-size: 16px;
+}
+
+h3, ul, .test-passed-info {
+  font-size: 12px;
+}
+
+.browser-information {
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.browser-information h2 {
+  margin: 0;
+  height: 46px;
+  padding: 5px 0 5px 5px;
+  color: white;
+  background-color: #003d57;
+  margin-bottom: 10px;
+}
+
+.browser-information table {
+  border-collapse: collapse;
+}
+
+.browser-information table tbody tr td {
+  border: 1px solid #d4d4d4;
+}
+
+.browser-information table tbody tr:nth-child(even) {
+  background: #eeeeee;
+}
+
+.browser-information table tbody tr:nth-child(odd) {
+  background: #fafafa;
+}
+
+.browser-information table tbody tr td {
+  padding: 2px 5px 2px 10px;
+}
+
+.browser-information table tbody tr td:first-child {
+  min-width: 250px;
+}
+
+.suite {
+  width: 100%;
+  overflow: auto;
+}
+
+.suite .stats {
+  margin: 0;
+  width: 90%;
+  padding: 0;
+}
+
+.suite .stats li {
+  display: inline;
+  list-style-type: none;
+  padding-right: 20px;
+}
+
+.suite h2 {
+  margin: 0
+}
+
+.suite header {
+  margin: 0;
+  padding: 5px 0 5px 5px;
+  background: #003d57;
+  color: white
+}
+
+.spec {
+  width: 100%;
+  overflow: auto;
+  border-bottom: 1px solid #e5e5e5
+}
+
+.spec:hover {
+  background: #e8f3fb
+}
+
+.spec h3 {
+  margin: 5px 0
+}
+
+.spec .description {
+  margin: 1% 2%;
+  width: 65%;
+  float: left
+}
+
+.spec .description li {
+  word-wrap: break-word;
+}
+
+.spec .resume {
+  width: 28%;
+  padding: 1%;
+  float: left;
+  text-align: center;
+  border-left: 1px solid #e5e5e5;
+}
+
+.spec .resume img {
+  border: 1px solid #e5e5e5;
+  box-sizing: border-box;
+  /*height: 150px;*/
+  width: 150px;
+}
+
+.spec .resume progress {
+  max-width: 100%;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+  background: #fff;
+}
+
+.spec .resume progress[value="100"] {
+  color: #0063a6;
+  max-width: 100%;
+  background: #fff;
+}
+
+.spec .resume progress[value="100"]::-moz-progress-bar {
+  background: green;
+}
+.spec .resume progress:not([value="100"])::-moz-progress-bar {
+  background: red;
+}
+
+.spec .resume progress::-webkit-progress-bar {
+  background: #ffffff;
+}
+.spec .resume progress[value="100"]::-webkit-progress-value {
+  background: green;
+}
+.spec .resume progress:not([value="100"])::-webkit-progress-value {
+  background: red;
+}

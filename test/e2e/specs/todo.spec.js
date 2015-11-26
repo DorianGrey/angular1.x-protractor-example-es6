@@ -56,6 +56,28 @@ describe('A more complex test for the "TODO list" page', function () {
 
   describe('Functionality', () => {
 
+    beforeAll(() => {
+      let self = this;
+      this.handleAlert = function () {
+        return browser.switchTo().alert().then(function (alert) {
+          return alert.getText()
+            .then(function (text) {
+              // Extract values.
+              let matcher = /(\d+)\s+(\+|-|\*|\/)\s+(\d+)/;
+              let [left, op, right] = text.match(matcher).slice(1);
+
+              left = parseInt(left);
+              right = parseInt(right);
+
+              let calculatedResult = self.todoPage.calcResultOf(left, op, right).toString();
+
+              alert.sendKeys(calculatedResult);
+              return alert.accept();
+            });
+        });
+      };
+    });
+
     it('should correctly add a new task', () => {
       let testTaskName = 'Testing task';
 
@@ -76,30 +98,14 @@ describe('A more complex test for the "TODO list" page', function () {
 
     it('should correctly remove a task from the list', (done) => {
       let self = this;
-      this.todoPage.todoEntries.removeIcons.get(1).click().then(function() {
-        browser.switchTo().alert().then(function (alert) {
-          return alert.getText()
-            .then(function (text) {
-              // Extract values.
-              let matcher = /(\d+)\s+(\+|-|\*|\/)\s+(\d+)/;
-              let [left, op, right] = text.match(matcher).slice(1);
-
-              left = parseInt(left);
-              right = parseInt(right);
-
-              let calculatedResult = self.todoPage.calcResultOf(left, op, right).toString();
-
-              alert.sendKeys(calculatedResult);
-              return alert.accept();
-            })
-            .then(function () {
-              expect(self.todoPage.todoEntries.count()).toEqual(2);
-              expect(self.todoPage.todoEntries.descriptions.first().getText()).toEqual('First task');
-              expect(self.todoPage.todoEntries.descriptions.last().getText()).toEqual('Testing task');
-              done();
-            });
+      this.todoPage.todoEntries.removeIcons.get(1).click()
+        .then(this.handleAlert)
+        .then(function () {
+          expect(self.todoPage.todoEntries.count()).toEqual(2);
+          expect(self.todoPage.todoEntries.descriptions.first().getText()).toEqual('First task');
+          expect(self.todoPage.todoEntries.descriptions.last().getText()).toEqual('Testing task');
+          done();
         });
-      });
     });
 
     it('should increase the amount of visible tasks by one if a new task was added', (done) => {
@@ -109,7 +115,9 @@ describe('A more complex test for the "TODO list" page', function () {
           // Expectation
           expect(newCount - oldCount).toEqual(1);
           // Cleanup
-          this.todoPage.todoEntries.removeIcons.last().click().then(done);
+          this.todoPage.todoEntries.removeIcons.last().click()
+            .then(this.handleAlert)
+            .then(done);
         });
       });
     });
