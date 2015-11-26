@@ -1,5 +1,18 @@
+
 var defaultTimeout = 60000,
   argv = require('yargs').argv;
+
+var addReporters = function(browserName) {
+  var SpecReporter = require('jasmine-spec-reporter'), // Improved CLI reporter
+    reporters = require('jasmine-reporters'), // We'll use the junitXML-Reporter here.
+    path = require('path');
+  var junitReporter = new reporters.JUnitXmlReporter({
+    savePath: path.join(__dirname, '../reports/', browserName, '/')
+  });
+
+  jasmine.getEnv().addReporter(new SpecReporter());
+  jasmine.getEnv().addReporter(junitReporter);
+};
 
 var generator = function () {
   var options = {
@@ -15,13 +28,11 @@ var generator = function () {
     // This function is called by protractor once it loaded itself. Any further steps to be performed before executing the tests has to be placed here.
     onPrepare: () => {
       // E.g., we might add a better structured command line reporter.
-      var SpecReporter = require('jasmine-spec-reporter');
-      jasmine.getEnv().addReporter(new SpecReporter());
-
       require('babel-core/register');
 
-      return browser.getCapabilities().then(function(caps) {
+      return browser.getCapabilities().then(function (caps) {
         global.browserCapabilities = caps;
+        addReporters(caps.get('browserName'));
       });
     }
   };

@@ -6,3 +6,5 @@ app/css/
 node_modules
 
 *nppdf32Log*
+
+test/e2e/reports

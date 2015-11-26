@@ -58,7 +58,7 @@ gulp.task('webdriver:update', (cb) => {
 
 // Define task for each supported browser - here: Firefox and Chrome.
 // It is required to just reference the config files here, since the protractor task is executed in a different process
-let supportedBrowsers = ['firefox', 'chrome', 'ie11', 'safari'],
+let supportedBrowsers = ['firefox', 'chrome', 'ie9', 'ie10', 'ie11', 'safari'],
   executionFunction = function (browserName) {
     let cfg = protractorCfgBuilder(browserName, argv);
 
