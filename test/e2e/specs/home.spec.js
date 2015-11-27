@@ -10,7 +10,7 @@ describe('A simple initial testcase', function () {
   });
 
   it('should display the home`s root element correctly', () => {
-    expect(this.homePage.title.isDisplayed()).toBeTruthy();
+    since('The home page\'s title should be displayed').expect(this.homePage.title.isDisplayed()).toBeTruthy();
   });
 
 });

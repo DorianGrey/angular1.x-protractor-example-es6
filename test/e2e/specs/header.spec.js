@@ -15,10 +15,10 @@ describe('A simple header testcase', function () {
     // The bootstrap implementation used in this example appears to be rather stable against this behavior.
     this.header.quickLinks.dropdown.click();
 
-    expect(this.header.quickLinks.options.count()).toEqual(3);
+    since('There should be three entries within the drop-down').expect(this.header.quickLinks.options.count()).toEqual(3);
 
-    this.header.quickLinks.options.each((element) => {
-      expect(element.isDisplayed()).toBeTruthy();
+    this.header.quickLinks.options.each((element, idx) => {
+      since(`Element #${idx} should be displayed`).expect(element.isDisplayed()).toBeTruthy();
     });
 
     this.header.quickLinks.dropdown.click();

@@ -73,7 +73,6 @@ export class CustomHTMLReporter {
     this.writeReportPromise = protractor.promise.when({});
 
     options = options || {};
-    this.started = this.finished = false;
 
     this.reportOptions = {};
     this.reportOptions.browserName = browserCapabilities.get('browserName') || uuid.v4(); // If non specified, use a UUID here.
@@ -90,9 +89,9 @@ export class CustomHTMLReporter {
 
     // Load compiled templates.
     this.compilers = {
-      browserInfo: handlebars.compile(readFileSync(path.join(__dirname, 'templates/browserInfo.hbs')).toString()),
-      suiteInfo: handlebars.compile(readFileSync(path.join(__dirname, './templates/suite.hbs')).toString()),
-      report: handlebars.compile(readFileSync(path.join(__dirname, './templates/report.hbs')).toString())
+      browserInfo: handlebars.compile(readFileSync(path.join(__dirname, 'templates', 'browserInfo.hbs')).toString()),
+      suiteInfo: handlebars.compile(readFileSync(path.join(__dirname, 'templates', 'suite.hbs')).toString()),
+      report: handlebars.compile(readFileSync(path.join(__dirname, 'templates', 'report.hbs')).toString())
     };
 
     // Initiate the managing stuff.
@@ -243,7 +242,7 @@ export class CustomHTMLReporter {
 
   suiteDone(suite) {
     suite = this.getSuite(suite);
-    if (_.isUndefined(suite._parent)) { // `null` is ok, since it's marked as "have seen this already"
+    if (_.isUndefined(suite._parent)) { // `null` is ok, since it's marked as "have seen this already"; may happen if xdescribe was used.
       this.suiteStarted(suite);
     }
     suite._endTime = new Date();
@@ -266,7 +265,6 @@ export class CustomHTMLReporter {
         this.writeFile(this.reportOptions.fileName, output);
       }
 
-      this.finished = true;
       this.managed.endTime = new Date();
     });
   }
