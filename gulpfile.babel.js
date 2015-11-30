@@ -55,7 +55,6 @@ gulp.task('webdriver:update', (cb) => {
   webdriverUpdate(cb);
 });
 
-
 // Define task for each supported browser - here: Firefox and Chrome.
 // It is required to just reference the config files here, since the protractor task is executed in a different process
 let supportedBrowsers = ['firefox', 'chrome', 'ie9', 'ie10', 'ie11', 'safari'],
@@ -126,4 +125,18 @@ gulp.task('serve', ['sass'], (cb) => {
   gulp.watch('./app/stylesheets/**/*.sass', ['sass:dev']);
 });
 
+// Things related to generating a PDF.
+import {inlineImage} from './gulp/inlineImage';
+import {toPDF} from './gulp/pdf';
+import rename from 'gulp-rename';
+
+gulp.task('pdf:all', () => {
+  gulp.src('./test/e2e/reports/**/*.html', {base: '.'})
+    .pipe(inlineImage())
+    .pipe(toPDF())
+    .pipe(rename({extname: '.pdf'}))
+    .pipe(gulp.dest('.'));
+});
+
+// The default task.
 gulp.task('default', ['serve']);
