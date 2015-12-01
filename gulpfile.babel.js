@@ -4,7 +4,7 @@ import gulp from 'gulp';
 import gulpUtil from 'gulp-util';
 
 // Tasks for e2e-testing with protractor
-import {protractor, webdriver_update} from './test/e2e/helper/gulp-protractor-plugin';
+import {protractor, webdriver_update} from 'gulp-protractor';
 
 // Config builder helper
 import {protractorCfgBuilder} from './test/e2e/configs/builder';
